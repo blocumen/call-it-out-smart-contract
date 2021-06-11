@@ -1,0 +1,53 @@
+scilla_version 0
+
+contract Reputation
+(
+  owner : ByStr20
+)
+
+field userVsReputation : Map ByStr20 Uint128 = Emp ByStr20 Uint128
+field initialReputation: Uint128 = Uint128 1
+
+transition increaseReputation(user: ByStr20, reputation: Uint128)
+
+    isOwner = builtin eq _sender owner;
+
+  match isOwner with
+    | False => throw
+    | True =>
+  end;
+
+  currentReputation <- userVsReputation[user];
+
+  iReputation <- initialReputation;
+      
+      match currentReputation with
+                | None =>  
+                  userVsReputation[user] := iReputation
+                | Some ureputation =>
+                  newReputation = builtin add ureputation reputation;
+                  userVsReputation[user] := newReputation
+      end
+
+end
+
+transition decreaseReputation(user: ByStr20, reputation: Uint128)
+  
+  isOwner = builtin eq _sender owner;
+
+  match isOwner with
+    | False => throw
+    | True =>
+  end;
+  
+  currentReputation <- userVsReputation[user];
+      
+      match currentReputation with
+                | None =>  throw
+                | Some ureputation =>
+                  newReputation = builtin sub ureputation reputation;
+                  userVsReputation[user] := newReputation
+      end
+
+end
+
