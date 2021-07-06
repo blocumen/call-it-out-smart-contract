@@ -6,7 +6,7 @@ contract Reputation
 )
 
 field userVsReputation : Map ByStr20 Uint128 = Emp ByStr20 Uint128
-field initialReputation: Uint128 = Uint128 1
+(*field initialReputation: Uint128 = Uint128 1*)
 
 transition increaseReputation(user: ByStr20, reputation: Uint128)
 
@@ -19,11 +19,11 @@ transition increaseReputation(user: ByStr20, reputation: Uint128)
 
   currentReputation <- userVsReputation[user];
 
-  iReputation <- initialReputation;
+(*  iReputation <- initialReputation;*)
       
       match currentReputation with
                 | None =>  
-                  userVsReputation[user] := iReputation
+                  userVsReputation[user] := reputation
                 | Some ureputation =>
                   newReputation = builtin add ureputation reputation;
                   userVsReputation[user] := newReputation
